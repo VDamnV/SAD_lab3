@@ -1,0 +1,25 @@
+# Специфічні файли та папки Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Папки з результатами збірки та компіляції (обов'язково ігнорувати!)
+[Bb]in/
+[Oo]bj/
+
+# Локальні бази даних (якщо будете використовувати LocalDB/SQLite у вигляді файлів)
+*.mdf
+*.ldf
+*.ndf
+*.db
+*.sqlite
+
+# Файли конфігурації користувача
+appsettings.Development.json
+appsettings.Local.json
+
+# Специфічні файли операційних систем
+.DS_Store
+Thumbs.db

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Lab_3.BLL/Lab_3.BLL.csproj" />
+  <Project Path="Lab_3.DAL/Lab_3.DAL.csproj" />
+  <Project Path="Lab_3.UI/Lab_3.UI.csproj" />
+</Solution>
