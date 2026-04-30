@@ -13,7 +13,6 @@ namespace Lab_3.DAL.UoW
         private IRepository<Room>? _roomRepository;
         private IRepository<Booking>? _bookingRepository;
         
-        // Прапорець для відстеження того, чи були вже звільнені ресурси
         private bool _disposed = false;
 
         public UnitOfWork(AppDbContext context)
@@ -22,7 +21,6 @@ namespace Lab_3.DAL.UoW
         }
 
         // Властивість для доступу до кімнат.
-        // Якщо _roomRepository ще порожній (null), створюємо його.
         public IRepository<Room> Rooms
         {
             get
@@ -42,13 +40,11 @@ namespace Lab_3.DAL.UoW
             }
         }
 
-        // Зберігаємо всі зміни в БД
         public void Save()
         {
             _context.SaveChanges();
         }
 
-        // Правильна реалізація патерну Dispose для безпечного звільнення ресурсів (наприклад, з'єднання з БД)
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
