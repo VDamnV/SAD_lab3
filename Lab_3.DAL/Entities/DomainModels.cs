@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Lab_3.DAL.Entities
 {
-    // Статуси номеру згідно з варіантом 3
+    // Статуси номеру
     public enum RoomStatus
     {
-        Free,      // Вільний
-        Booked,    // Заброньований
-        Occupied   // Зданий (зайнятий)
+        Free,      
+        Booked,    
+        Occupied  
     }
 
     public class Room : BaseEntity
@@ -21,8 +21,7 @@ namespace Lab_3.DAL.Entities
         
         public RoomStatus Status { get; set; } = RoomStatus.Free;
 
-        // Навігаційна властивість для Entity Framework (зв'язок 1-до-багатьох)
-        // Один номер може мати історію з кількох бронювань
+        // Навігаційна властивість для Entity Framework
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 
