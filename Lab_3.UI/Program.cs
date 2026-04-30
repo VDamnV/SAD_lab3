@@ -24,17 +24,17 @@ namespace Lab_3.UI
 
             string hotelName = config["HotelSettings:HotelName"] ?? "Наш Готель";
 
-            // 2. Налаштування Dependency Injection (DI)
+            // 2. Налаштування Dependency Injection
             var serviceProvider = ConfigureServices();
 
             // 3. Отримання головного сервісу з контейнера DI
             var hotelService = serviceProvider.GetRequiredService<IBusinessService>();
             
-            // Отримуємо UnitOfWork лише для того, щоб залити початкові дані (Seed)
+            // UnitOfWork для того, щоб залити початкові дані
             var uow = serviceProvider.GetRequiredService<IUnitOfWork>();
             SeedData(uow);
 
-            // 4. Запуск UI (Консольне меню)
+            // 4. Запуск UI
             RunMenu(hotelService, hotelName);
         }
 
@@ -43,7 +43,7 @@ namespace Lab_3.UI
     {
         var services = new ServiceCollection();
 
-        // 1. Додаємо базові сервіси логування (це вирішить помилку ILoggerFactory)
+        // 1. Базові сервіси логування
         services.AddLogging(config => config.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Error));
 
         // 2. Реєстрація DAL
@@ -80,7 +80,6 @@ namespace Lab_3.UI
 
         var choice = Console.ReadLine();
 
-        // Додаємо відступ для краси після вибору
         Console.WriteLine(); 
 
         switch (choice)
@@ -105,9 +104,8 @@ namespace Lab_3.UI
                 break;
         }
 
-        // Залізобетонна пауза, яка не проскочить випадково
         Console.WriteLine("\nНатисніть клавішу Enter для повернення в меню...");
-        Console.ReadLine(); // Використовуємо ReadLine замість ReadKey для стабільності в терміналі VS Code
+        Console.ReadLine();
     }
 }
 
@@ -145,8 +143,6 @@ namespace Lab_3.UI
         private static void CancelBooking(IBusinessService service)
         {
             Console.Write("\nВведіть ID бронювання для скасування (для демо введіть ID номеру, який заброньовано - логіка спрощена): ");
-            // Примітка: у повноцінній системі користувач вводить номер броні. 
-            // Для спрощення роботи в консолі ми скасовуємо просто за ID, який збігається.
             if (int.TryParse(Console.ReadLine(), out int bookingId))
             {
                 bool success = service.CancelBooking(bookingId);
@@ -157,7 +153,6 @@ namespace Lab_3.UI
             }
         }
 
-        // Заповнення бази початковими даними при першому запуску
         private static void SeedData(IUnitOfWork uow)
         {
             var existingRooms = uow.Rooms.GetAll();
