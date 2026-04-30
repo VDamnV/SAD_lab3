@@ -12,7 +12,6 @@ namespace Lab_3.DAL.UoW
         // Доступ до репозиторію бронювань
         IRepository<Booking> Bookings { get; }
         
-        // Метод для збереження всіх змін однією транзакцією
         void Save();
     }
 }
