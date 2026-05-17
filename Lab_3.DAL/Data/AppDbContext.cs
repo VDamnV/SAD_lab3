@@ -5,18 +5,14 @@ namespace Lab_3.DAL.Data
 {
     public class AppDbContext : DbContext
     {
-        // Таблиці бази даних
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
-        // Конструктор за замовчуванням (корисний для локального тестування)
         public AppDbContext()
         {
-            // Переконаємося, що база даних створена
             Database.EnsureCreated();
         }
 
-        // Конструктор для передачі налаштувань (наприклад, з UI шару)
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -24,8 +20,6 @@ namespace Lab_3.DAL.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Якщо підключення ще не налаштоване (наприклад, не передане через конструктор),
-            // використовуємо In-Memory базу даних для простоти тестування лабораторної.
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseInMemoryDatabase("HotelLab3Db");
@@ -36,7 +30,6 @@ namespace Lab_3.DAL.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Налаштування зв'язку між Room та Booking (Один-до-багатьох)
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Room)
                 .WithMany(r => r.Bookings)

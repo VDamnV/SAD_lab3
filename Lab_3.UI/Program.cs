@@ -16,7 +16,6 @@ namespace Lab_3.UI
     {
         static void Main(string[] args)
         {
-            // 1. Зчитування конфігурації з appsettings.json
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -24,36 +23,27 @@ namespace Lab_3.UI
 
             string hotelName = config["HotelSettings:HotelName"] ?? "Наш Готель";
 
-            // 2. Налаштування Dependency Injection (DI)
             var serviceProvider = ConfigureServices();
 
-            // 3. Отримання головного сервісу з контейнера DI
             var hotelService = serviceProvider.GetRequiredService<IBusinessService>();
             
-            // Отримуємо UnitOfWork лише для того, щоб залити початкові дані (Seed)
             var uow = serviceProvider.GetRequiredService<IUnitOfWork>();
             SeedData(uow);
 
-            // 4. Запуск UI (Консольне меню)
             RunMenu(hotelService, hotelName);
         }
 
-        // Метод для налаштування всіх залежностей
         private static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
 
-        // 1. Додаємо базові сервіси логування (це вирішить помилку ILoggerFactory)
         services.AddLogging(config => config.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Error));
 
-        // 2. Реєстрація DAL
         services.AddDbContext<AppDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        // 3. Реєстрація BLL
         services.AddScoped<IBusinessService, BusinessService>();
     
-        // 4. Реєстрація AutoMapper
         services.AddAutoMapper(cfg => 
         {
             cfg.AddProfile<MappingProfile>();
@@ -62,7 +52,6 @@ namespace Lab_3.UI
         return services.BuildServiceProvider();
     }
 
-        // Головний цикл взаємодії з користувачем
         private static void RunMenu(IBusinessService hotelService, string hotelName)
 {
     while (true)
@@ -80,7 +69,6 @@ namespace Lab_3.UI
 
         var choice = Console.ReadLine();
 
-        // Додаємо відступ для краси після вибору
         Console.WriteLine(); 
 
         switch (choice)
@@ -105,9 +93,8 @@ namespace Lab_3.UI
                 break;
         }
 
-        // Залізобетонна пауза, яка не проскочить випадково
         Console.WriteLine("\nНатисніть клавішу Enter для повернення в меню...");
-        Console.ReadLine(); // Використовуємо ReadLine замість ReadKey для стабільності в терміналі VS Code
+        Console.ReadLine(); 
     }
 }
 
@@ -144,9 +131,7 @@ namespace Lab_3.UI
 
         private static void CancelBooking(IBusinessService service)
         {
-            Console.Write("\nВведіть ID бронювання для скасування (для демо введіть ID номеру, який заброньовано - логіка спрощена): ");
-            // Примітка: у повноцінній системі користувач вводить номер броні. 
-            // Для спрощення роботи в консолі ми скасовуємо просто за ID, який збігається.
+            Console.Write("\nВведіть ID бронювання для скасування: ");
             if (int.TryParse(Console.ReadLine(), out int bookingId))
             {
                 bool success = service.CancelBooking(bookingId);
@@ -157,7 +142,6 @@ namespace Lab_3.UI
             }
         }
 
-        // Заповнення бази початковими даними при першому запуску
         private static void SeedData(IUnitOfWork uow)
         {
             var existingRooms = uow.Rooms.GetAll();

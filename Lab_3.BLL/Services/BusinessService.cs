@@ -14,7 +14,6 @@ namespace Lab_3.BLL.Services
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        // Впровадження залежностей (Dependency Injection)
         public BusinessService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
@@ -24,13 +23,11 @@ namespace Lab_3.BLL.Services
         public IEnumerable<RoomDto> GetAllRooms()
         {
             var rooms = _uow.Rooms.GetAll();
-            // Використовуємо AutoMapper для перетворення списку Room у список RoomDto
             return _mapper.Map<IEnumerable<RoomDto>>(rooms);
         }
 
         public IEnumerable<RoomDto> GetFreeRooms()
         {
-            // Бізнес-правило: шукаємо тільки ті номери, які мають статус Free
             var freeRooms = _uow.Rooms.GetAll().Where(r => r.Status == RoomStatus.Free);
             return _mapper.Map<IEnumerable<RoomDto>>(freeRooms);
         }
@@ -39,13 +36,11 @@ namespace Lab_3.BLL.Services
         {
             var room = _uow.Rooms.GetById(roomId);
             
-            // Забронювати можна тільки існуючий та вільний номер
             if (room == null || room.Status != RoomStatus.Free)
             {
                 return false; 
             }
 
-            // Створюємо нове бронювання
             var booking = new Booking
             {
                 RoomId = roomId,
@@ -53,14 +48,11 @@ namespace Lab_3.BLL.Services
                 EndDate = end
             };
 
-            // Змінюємо статус номеру на "Заброньовано"
             room.Status = RoomStatus.Booked;
             
-            // Додаємо бронювання та оновлюємо номер у репозиторіях
             _uow.Bookings.Add(booking);
             _uow.Rooms.Update(room);
             
-            // Зберігаємо всі зміни ОДНІЄЮ транзакцією
             _uow.Save();
 
             return true;
@@ -74,15 +66,12 @@ namespace Lab_3.BLL.Services
             var room = _uow.Rooms.GetById(booking.RoomId);
             if (room != null)
             {
-                // Повертаємо номеру статус "Вільний"
                 room.Status = RoomStatus.Free;
                 _uow.Rooms.Update(room);
             }
 
-            // Видаляємо запис про бронювання
             _uow.Bookings.Delete(bookingId);
             
-            // Зберігаємо зміни
             _uow.Save();
 
             return true;

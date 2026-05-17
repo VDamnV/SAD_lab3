@@ -12,7 +12,6 @@ namespace Lab_3.BLL.DTOs
         
         public decimal PricePerNight { get; set; }
         
-        // Для зручності виводу на UI передаємо статус як рядок
         public string Status { get; set; } = string.Empty; 
     }
 

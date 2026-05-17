@@ -11,7 +11,6 @@ namespace Lab_3.DAL.Repositories
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        // Впровадження залежності (Dependency Injection) контексту бази даних
         public Repository(AppDbContext context)
         {
             _context = context;
@@ -20,14 +19,11 @@ namespace Lab_3.DAL.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            // Повертаємо всі записи як список.
-            // Примітка: AsNoTracking() покращує продуктивність, якщо ми тільки читаємо дані
             return _dbSet.AsNoTracking().ToList();
         }
 
         public T? GetById(int id)
         {
-            // Шукаємо запис за первинним ключем (Id)
             return _dbSet.Find(id);
         }
 
@@ -38,7 +34,6 @@ namespace Lab_3.DAL.Repositories
 
         public void Update(T entity)
         {
-            // Кажемо Entity Framework, що сутність була змінена
             _context.Entry(entity).State = EntityState.Modified;
         }
 
