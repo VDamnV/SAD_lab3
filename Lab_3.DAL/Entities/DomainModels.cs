@@ -19,7 +19,6 @@ namespace Lab_3.DAL.Entities
         public decimal PricePerNight { get; set; }
         
         public RoomStatus Status { get; set; } = RoomStatus.Free;
-
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 

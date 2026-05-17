@@ -18,7 +18,7 @@ namespace Lab_3.DAL.UoW
         {
             _context = context;
         }
-
+        
         public IRepository<Room> Rooms
         {
             get

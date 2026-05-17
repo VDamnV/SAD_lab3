@@ -94,7 +94,7 @@ namespace Lab_3.UI
         }
 
         Console.WriteLine("\nНатисніть клавішу Enter для повернення в меню...");
-        Console.ReadLine(); 
+        Console.ReadLine();
     }
 }
 

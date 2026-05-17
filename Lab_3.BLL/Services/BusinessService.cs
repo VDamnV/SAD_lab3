@@ -41,6 +41,7 @@ namespace Lab_3.BLL.Services
                 return false; 
             }
 
+
             var booking = new Booking
             {
                 RoomId = roomId,
@@ -48,8 +49,6 @@ namespace Lab_3.BLL.Services
                 EndDate = end
             };
 
-            room.Status = RoomStatus.Booked;
-            
             _uow.Bookings.Add(booking);
             _uow.Rooms.Update(room);
             
