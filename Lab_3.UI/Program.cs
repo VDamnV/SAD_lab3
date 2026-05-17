@@ -142,7 +142,7 @@ namespace Lab_3.UI
 
         private static void CancelBooking(IBusinessService service)
         {
-            Console.Write("\nВведіть ID бронювання для скасування (для демо введіть ID номеру, який заброньовано - логіка спрощена): ");
+            Console.Write("\nВведіть ID бронювання для скасування: ");
             if (int.TryParse(Console.ReadLine(), out int bookingId))
             {
                 bool success = service.CancelBooking(bookingId);
